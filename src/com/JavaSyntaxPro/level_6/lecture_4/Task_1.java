@@ -39,8 +39,8 @@ public class Task_1 {
                 }
             }
         }
-        for (int i = 0; i < strings.length; i++) {
-            System.out.print(strings[i] + ", ");
+        for (String string : strings) {
+            System.out.print(string + ", ");
         }
     }
 }
