@@ -25,7 +25,7 @@ public class Task_3 {
                 for (int k = 0; k < multiArray[i][j].length; k++) {
                     System.out.print(multiArray[i][j][k] + " ");
                 }
-                System.out.println("");
+                System.out.println(" ");
             }
             System.out.println("______");
         }
