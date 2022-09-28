@@ -3,10 +3,12 @@ package com.game.minesweeperGame;
 public class GameObject {
     public final int x;
     public final int y;
+    public boolean isMine;
 
-    public GameObject(int x, int y) {
+    public GameObject(int x, int y, boolean isMine) {
         this.x = x;
         this.y = y;
+        this.isMine = isMine;
     }
 
     public int getX() {
@@ -15,5 +17,9 @@ public class GameObject {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isMine() {
+        return isMine;
     }
 }
