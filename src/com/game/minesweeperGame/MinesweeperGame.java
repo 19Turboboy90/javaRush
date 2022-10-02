@@ -12,11 +12,18 @@ public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
     private int countMinesOnField;
     private final GameObject[][] gameField = new GameObject[SIDE][SIDE];
+    private static final String MINE = "\uD83D\uDCA3";
+
 
     @Override
     public void initialize() {
         setScreenSize(SIDE, SIDE);
         createGame();
+    }
+
+    @Override
+    public void onMouseLeftClick(int x, int y) {
+        openTile(x, y);
     }
 
     private void createGame() {
@@ -32,35 +39,36 @@ public class MinesweeperGame extends Game {
     }
 
     private void countMineNeighbors() {
-        for (int y = 0; y < gameField.length; y++) {
-            for (int x = 0; x < gameField[0].length; x++) {
-                GameObject gameObject = gameField[y][x];
-                if (!gameObject.isMine) {
-                    for (GameObject neighbor : getNeighbors(gameObject)) {
-                        if (neighbor.isMine) {
-                            neighbor.countMineNeighbors++;
-                        }
-                    }
-                }
-            }
-        }
-//        Arrays.stream(gameField)
-//                .forEach(gameObjects ->
-//                        Arrays.stream(gameObjects, 0, gameField[0].length)
-//                                .filter(gameObject -> !gameObject.isMine)
-//                                .forEach(gameObject -> getNeighbors(gameObject).stream()
-//                                        .filter(neighbor -> neighbor.isMine)
-//                                        .forEach(neighbor -> neighbor.countMineNeighbors++)));
+//        for (int y = 0; y < gameField.length; y++) {
+//            for (int x = 0; x < gameField[0].length; x++) {
+//                GameObject gameObject = gameField[y][x];
+//                if (!gameObject.isMine) {
+//                    for (GameObject neighbor : getNeighbors(gameObject)) {
+//                        if (neighbor.isMine) {
+//                            gameObject.countMineNeighbors++;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+        Arrays.stream(gameField)
+                .forEach(gameObjects ->
+                        Arrays.stream(gameObjects, 0, gameField[0].length)
+                                .filter(gameObject -> !gameObject.isMine)
+                                .forEach(gameObject -> getNeighbors(gameObject).stream()
+                                        .filter(neighbor -> neighbor.isMine)
+                                        .forEach(neighbor -> gameObject.countMineNeighbors++)));
     }
 
     private List<GameObject> getNeighbors(GameObject gameObject) {
         List<GameObject> gameObjectList = new ArrayList<>();
-        for (int y = gameObject.y - 1; y < gameField.length; y++) {
-            for (int x = gameObject.x - 1; x < gameField[0].length; x++) {
+        for (int y = gameObject.y - 1; y <= gameObject.y + 1; y++) {
+            for (int x = gameObject.x - 1; x <= gameObject.x + 1; x++) {
                 if (y < 0 || y >= SIDE) {
                     continue;
                 }
-                if (gameObject.x < 0 || gameObject.x >= SIDE) {
+                if (x < 0 || x >= SIDE) {
                     continue;
                 }
                 if (gameField[y][x] == gameObject) {
@@ -70,5 +78,17 @@ public class MinesweeperGame extends Game {
             }
         }
         return gameObjectList;
+    }
+
+    private void openTile(int x, int y) {
+        GameObject gameObject = gameField[y][x];
+
+        if (gameObject.isMine) {
+            setCellValue(gameObject.x, gameObject.y, MINE);
+        } else {
+            setCellNumber(x, y, gameObject.countMineNeighbors);
+        }
+        gameObject.isOpen = true;
+        setCellColor(x, y, Color.GREEN);
     }
 }
