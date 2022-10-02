@@ -3,6 +3,10 @@ package com.game.minesweeperGame;
 import com.javarush.engine.cell.Color;
 import com.javarush.engine.cell.Game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 //--module-path ./lib/javafx-sdk-16/lib --add-modules=javafx.controls,javafx.fxml,javafx.base
 public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
@@ -16,13 +20,55 @@ public class MinesweeperGame extends Game {
     }
 
     private void createGame() {
-        for (int i = 0; i < gameField.length; i++) {
-            for (int j = 0; j < gameField[0].length; j++) {
+        for (int y = 0; y < gameField.length; y++) {
+            for (int x = 0; x < gameField[0].length; x++) {
                 boolean isMine = getRandomNumber(10) < 1;
                 countMinesOnField = isMine ? countMinesOnField + 1 : countMinesOnField;
-                gameField[i][j] = new GameObject(j, i, isMine);
-                setCellColor(j, i, Color.ORANGE);
+                gameField[y][x] = new GameObject(x, y, isMine);
+                setCellColor(x, y, Color.ORANGE);
             }
         }
+        countMineNeighbors();
+    }
+
+    private void countMineNeighbors() {
+        for (int y = 0; y < gameField.length; y++) {
+            for (int x = 0; x < gameField[0].length; x++) {
+                GameObject gameObject = gameField[y][x];
+                if (!gameObject.isMine) {
+                    for (GameObject neighbor : getNeighbors(gameObject)) {
+                        if (neighbor.isMine) {
+                            neighbor.countMineNeighbors++;
+                        }
+                    }
+                }
+            }
+        }
+//        Arrays.stream(gameField)
+//                .forEach(gameObjects ->
+//                        Arrays.stream(gameObjects, 0, gameField[0].length)
+//                                .filter(gameObject -> !gameObject.isMine)
+//                                .forEach(gameObject -> getNeighbors(gameObject).stream()
+//                                        .filter(neighbor -> neighbor.isMine)
+//                                        .forEach(neighbor -> neighbor.countMineNeighbors++)));
+    }
+
+    private List<GameObject> getNeighbors(GameObject gameObject) {
+        List<GameObject> gameObjectList = new ArrayList<>();
+        for (int y = gameObject.y - 1; y < gameField.length; y++) {
+            for (int x = gameObject.x - 1; x < gameField[0].length; x++) {
+                if (y < 0 || y >= SIDE) {
+                    continue;
+                }
+                if (gameObject.x < 0 || gameObject.x >= SIDE) {
+                    continue;
+                }
+                if (gameField[y][x] == gameObject) {
+                    continue;
+                }
+                gameObjectList.add(gameField[y][x]);
+            }
+        }
+        return gameObjectList;
     }
 }

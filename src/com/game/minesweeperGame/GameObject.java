@@ -4,6 +4,7 @@ public class GameObject {
     public final int x;
     public final int y;
     public boolean isMine;
+    public int countMineNeighbors;
 
     public GameObject(int x, int y, boolean isMine) {
         this.x = x;
@@ -21,5 +22,9 @@ public class GameObject {
 
     public boolean isMine() {
         return isMine;
+    }
+
+    public int getCountMineNeighbors() {
+        return countMineNeighbors;
     }
 }
