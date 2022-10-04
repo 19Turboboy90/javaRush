@@ -12,10 +12,10 @@ public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
     private int countMinesOnField;
     private int countFlags;
+    private boolean isGameStopped;
     private final GameObject[][] gameField = new GameObject[SIDE][SIDE];
     private static final String FLAG = "\uD83D\uDEA9";
     private static final String MINE = "\uD83D\uDCA3";
-
 
     @Override
     public void initialize() {
@@ -33,8 +33,8 @@ public class MinesweeperGame extends Game {
         markTile(x, y);
     }
 
-
     private void createGame() {
+        isGameStopped = false;
         for (int y = 0; y < gameField.length; y++) {
             for (int x = 0; x < gameField[0].length; x++) {
                 boolean isMine = getRandomNumber(10) < 1;
@@ -95,6 +95,8 @@ public class MinesweeperGame extends Game {
         setCellColor(x, y, Color.GREEN);
         if (gameObject.isMine) {
             setCellValue(gameObject.x, gameObject.y, MINE);
+            setCellValueEx(x, y, Color.RED, MINE);
+            gameOver();
         } else if (gameObject.countMineNeighbors == 0) {
             setCellValue(gameObject.x, gameObject.y, "");
             List<GameObject> neighbors = getNeighbors(gameObject);
@@ -106,8 +108,7 @@ public class MinesweeperGame extends Game {
 
     private void markTile(int x, int y) {
         GameObject gameObject = gameField[y][x];
-
-        if (gameObject.isOpen || (countFlags == 0 && !gameObject.isFlag)) {
+        if (gameObject.isOpen || (countFlags == 0 && !gameObject.isFlag) || isGameStopped) {
             return;
         }
         if (!gameObject.isFlag) {
@@ -115,12 +116,16 @@ public class MinesweeperGame extends Game {
             countFlags--;
             setCellValue(x, y, FLAG);
             setCellColor(x, y, Color.YELLOW);
-
-        } else  {
+        } else {
             gameObject.isFlag = false;
             countFlags++;
             setCellValue(x, y, "");
             setCellColor(x, y, Color.ORANGE);
         }
+    }
+
+    private void gameOver() {
+        isGameStopped = true;
+        showMessageDialog(Color.WHITE, "Game Over", Color.BLACK, 100);
     }
 }
