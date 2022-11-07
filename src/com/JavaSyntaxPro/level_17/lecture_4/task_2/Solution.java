@@ -2,7 +2,6 @@ package com.JavaSyntaxPro.level_17.lecture_4.task_2;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.util.Calendar;
 import java.util.Locale;
 
 /*
