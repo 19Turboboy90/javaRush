@@ -5,9 +5,9 @@ import java.time.Instant;
 /*
 В классе Solution реализуй три метода:
 
-в методе getMaxFromMilliseconds верни максимальный Instant, который можно получить с помощью метода ofEpochMilli(long milliseconds);
-в методе getMaxFromSeconds верни максимальный Instant, который можно получить с помощью метода ofEpochSecond(long seconds);
-в методе getMaxFromSecondsAndNanos верни максимальный Instant, который можно получить с помощью метода ofEpochSecond(long seconds, long nanos).
+В методе getMaxFromMilliseconds верни максимальный Instant, который можно получить с помощью метода ofEpochMilli(long milliseconds).
+В методе getMaxFromSeconds верни максимальный Instant, который можно получить с помощью метода ofEpochSecond(long seconds).
+В методе getMaxFromSecondsAndNanos верни максимальный Instant, который можно получить с помощью метода ofEpochSecond(long seconds, long nanos).
 Требования:
 •	Метод getMaxFromMilliseconds нужно реализовать согласно условию.
 •	Метод getMaxFromSeconds нужно реализовать согласно условию.
@@ -29,6 +29,6 @@ public class Solution {
     }
 
     static Instant getMaxFromSecondsAndNanos() {
-       return Instant.ofEpochSecond(Instant.MAX.getEpochSecond(),999999999);
+        return Instant.ofEpochSecond(Instant.MAX.getEpochSecond(), 999999999);
     }
 }
