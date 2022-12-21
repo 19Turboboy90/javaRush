@@ -1,24 +1,7 @@
 package com.javaCore.level_3.lecture_11.task_13;
 
 public abstract class AbstractRobot implements Attackable, Defensable {
-    private static int hitCount;
-
-    public BodyPart defense() {
-        BodyPart defendedBodyPart = null;
-        hitCount = hitCount + 2;
-
-        if (hitCount == 1) {
-            defendedBodyPart = BodyPart.HEAD;
-        } else if (hitCount == 2) {
-            defendedBodyPart = BodyPart.LEG;
-        } else if (hitCount == 4) {
-            hitCount = 0;
-            defendedBodyPart = BodyPart.ARM;
-        } else if (hitCount == 3) {
-            defendedBodyPart = BodyPart.CHEST;
-        }
-        return defendedBodyPart;
-    }
+    private int hitCount;
 
     public BodyPart attack() {
         BodyPart attackedBodyPart = null;
@@ -29,11 +12,29 @@ public abstract class AbstractRobot implements Attackable, Defensable {
         } else if (hitCount == 2) {
             attackedBodyPart = BodyPart.HEAD;
         } else if (hitCount == 3) {
-            attackedBodyPart = BodyPart.CHEST;
-        } else if (hitCount == 4) {
-            hitCount = 0;
             attackedBodyPart = BodyPart.LEG;
+        } else {
+            hitCount = 0;
+            attackedBodyPart = BodyPart.CHEST;
         }
+
         return attackedBodyPart;
+    }
+
+    public BodyPart defense() {
+        BodyPart defendedBodyPart = null;
+        hitCount = hitCount + 2;
+
+        if (hitCount == 1) {
+            defendedBodyPart = BodyPart.HEAD;
+        } else if (hitCount == 2) {
+            defendedBodyPart = BodyPart.LEG;
+        } else if (hitCount == 3) {
+            defendedBodyPart = BodyPart.CHEST;
+        } else {
+            hitCount = 0;
+            defendedBodyPart = BodyPart.ARM;
+        }
+        return defendedBodyPart;
     }
 }
