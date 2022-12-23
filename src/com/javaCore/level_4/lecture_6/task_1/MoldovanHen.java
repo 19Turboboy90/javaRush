@@ -1,0 +1,13 @@
+package com.javaCore.level_4.lecture_6.task_1;
+
+public class MoldovanHen extends Hen {
+    @Override
+    int getCountOfEggsPerMonth() {
+        return 1000;
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + String.format(" Моя страна - %s. Я несу %d яиц в месяц.", Country.MOLDOVA, getCountOfEggsPerMonth());
+    }
+}
