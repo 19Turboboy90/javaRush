@@ -1,6 +1,7 @@
 package com.javaCore.level_5.lecture_7.task_1;
+
 /*
-ввести код с сайта
+РЅР°Р±СЂР°С‚СЊ С‚РµРєСЃС‚ СЃ СЃР°Р№С‚Р°
  */
 public class Solution {
 /*
