@@ -36,8 +36,6 @@ public class Solution {
     }
 
     public static class GenerateThread extends Thread {
-
-
         public GenerateThread() {
             super(String.valueOf(++createdThreadCount));
             start();
@@ -50,7 +48,7 @@ public class Solution {
 
         @Override
         public void run() {
-            while (createdThreadCount < Solution.count) {
+            if (createdThreadCount < Solution.count) {
                 System.out.println(new GenerateThread());
             }
         }
