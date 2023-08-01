@@ -9,7 +9,8 @@ import java.util.List;
 
 //--module-path ./lib/javafx-sdk-16/lib --add-modules=javafx.controls,javafx.fxml,javafx.base
 public class MinesweeperGame extends Game {
-    private static final int SIDE = 9;
+    private static final int SIDE = 3;
+    private int countClosedTiles = SIDE * SIDE;
     private int countMinesOnField;
     private int countFlags;
     private boolean isGameStopped;
@@ -91,18 +92,30 @@ public class MinesweeperGame extends Game {
 
     private void openTile(int x, int y) {
         GameObject gameObject = gameField[y][x];
+        if (gameObject.isOpen || (countFlags == 0 && gameObject.isFlag) || isGameStopped) {
+            return;
+        }
         gameObject.isOpen = true;
+        countClosedTiles--;
         setCellColor(x, y, Color.GREEN);
         if (gameObject.isMine) {
             setCellValue(gameObject.x, gameObject.y, MINE);
             setCellValueEx(x, y, Color.RED, MINE);
+            countClosedTiles--;
             gameOver();
         } else if (gameObject.countMineNeighbors == 0) {
             setCellValue(gameObject.x, gameObject.y, "");
             List<GameObject> neighbors = getNeighbors(gameObject);
-            neighbors.stream().filter(neighbor -> !neighbor.isOpen).forEach(neighbor -> openTile(neighbor.x, neighbor.y));
+            for (GameObject neighbor : neighbors) {
+                if (!neighbor.isOpen) {
+                    openTile(neighbor.x, neighbor.y);
+                }
+            }
         } else {
             setCellNumber(x, y, gameObject.countMineNeighbors);
+        }
+        if (countClosedTiles == countMinesOnField) {
+            win();
         }
     }
 
@@ -127,5 +140,10 @@ public class MinesweeperGame extends Game {
     private void gameOver() {
         isGameStopped = true;
         showMessageDialog(Color.WHITE, "Game Over", Color.BLACK, 100);
+    }
+
+    private void win() {
+        isGameStopped = true;
+        showMessageDialog(Color.WHITE, "Game Win", Color.RED, 100);
     }
 }
