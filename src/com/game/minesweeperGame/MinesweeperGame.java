@@ -9,11 +9,12 @@ import java.util.List;
 
 //--module-path ./lib/javafx-sdk-16/lib --add-modules=javafx.controls,javafx.fxml,javafx.base
 public class MinesweeperGame extends Game {
-    private static final int SIDE = 3;
+    private static final int SIDE = 9;
     private int countClosedTiles = SIDE * SIDE;
     private int countMinesOnField;
     private int countFlags;
     private boolean isGameStopped;
+    private int score;
     private final GameObject[][] gameField = new GameObject[SIDE][SIDE];
     private static final String FLAG = "\uD83D\uDEA9";
     private static final String MINE = "\uD83D\uDCA3";
@@ -96,6 +97,10 @@ public class MinesweeperGame extends Game {
             return;
         }
         gameObject.isOpen = true;
+        if (!gameObject.isMine) {
+            score += 5;
+            setScore(score);
+        }
         countClosedTiles--;
         setCellColor(x, y, Color.GREEN);
         if (gameObject.isMine) {
