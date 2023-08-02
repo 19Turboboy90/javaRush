@@ -8,6 +8,8 @@ import com.javarush.engine.cell.*;
 public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
 
+    private int countMinesOnField;
+
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
 
     public void initialize() {
@@ -19,7 +21,13 @@ public class MinesweeperGame extends Game {
     private void createGame() {
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length; j++) {
-                gameField[i][j] = new GameObject(j, i);
+                int countMine = getRandomNumber(10);
+                if (countMine == 1) {
+                    gameField[i][j] = new GameObject(j, i, true);
+                    countMinesOnField++;
+                } else {
+                    gameField[i][j] = new GameObject(j, i, false);
+                }
                 setCellColor(i, j, Color.ORANGE);
             }
         }
