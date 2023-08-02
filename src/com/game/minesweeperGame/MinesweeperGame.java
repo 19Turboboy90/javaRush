@@ -13,6 +13,8 @@ import java.util.List;
 public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
 
+    private static final String MINE = "\uD83D\uDCA3";
+
     private int countMinesOnField;
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
@@ -64,5 +66,21 @@ public class MinesweeperGame extends Game {
                 }
             }
         });
+    }
+
+    private void openTile(int x, int y) {
+        GameObject gameObject = gameField[y][x];
+        gameObject.isOpen = true;
+        setCellColor(x, y, Color.GREEN);
+        if (gameObject.isMine) {
+            setCellValue(x, y, MINE);
+        } else {
+            setCellNumber(x, y, gameObject.countMineNeighbors);
+        }
+    }
+
+    @Override
+    public void onMouseLeftClick(int x, int y) {
+        openTile(x, y);
     }
 }
