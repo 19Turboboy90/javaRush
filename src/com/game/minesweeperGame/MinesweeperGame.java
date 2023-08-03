@@ -77,6 +77,7 @@ public class MinesweeperGame extends Game {
         setCellColor(x, y, Color.GREEN);
         if (gameObject.isMine) {
             setCellValue(gameObject.x, gameObject.y, MINE);
+            setCellColor(x, y, Color.RED);
         } else if (gameObject.countMineNeighbors == 0) {
             setCellValue(gameObject.x, gameObject.y, "");
             List<GameObject> neighbors = getNeighbors(gameObject);
@@ -93,5 +94,30 @@ public class MinesweeperGame extends Game {
     @Override
     public void onMouseLeftClick(int x, int y) {
         openTile(x, y);
+    }
+
+    private void markTile(int x, int y) {
+        GameObject gameObject = gameField[y][x];
+
+        if (gameObject.isOpen || (countFlags == 0 && !gameObject.isFlag)) {
+            return;
+        }
+
+        if (!gameObject.isFlag) {
+            gameObject.isFlag = true;
+            countFlags--;
+            setCellColor(gameObject.x, gameObject.y, Color.YELLOW);
+            setCellValue(gameObject.x, gameObject.y, FLAG);
+        } else {
+            gameObject.isFlag = false;
+            countFlags++;
+            setCellColor(gameObject.x, gameObject.y, Color.ORANGE);
+            setCellValue(gameObject.x, gameObject.y, "");
+        }
+    }
+
+    @Override
+    public void onMouseRightClick(int x, int y) {
+        markTile(x, y);
     }
 }
