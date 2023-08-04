@@ -1,16 +1,28 @@
 package com.game.snakeGame;
 
+import com.javarush.engine.cell.Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Snake {
-    public int x;
-    public int y;
     private List<GameObject> snakeParts = new ArrayList<>();
+    private static final String HEAD_SIGN = "\uD83D\uDC7E";
+    private static final String BODY_SIGN = "\u26AB";
 
     public Snake(int x, int y) {
         snakeParts.add(new GameObject(x, y));
         snakeParts.add(new GameObject(x + 1, y));
         snakeParts.add(new GameObject(x + 2, y));
+    }
+
+    public void draw(Game game) {
+        snakeParts.forEach(snakePart -> {
+            if (snakePart.equals(snakeParts.get(0))) {
+                game.setCellValue(snakePart.x, snakePart.y, HEAD_SIGN);
+            } else {
+                game.setCellValue(snakePart.x, snakePart.y, BODY_SIGN);
+            }
+        });
     }
 }
