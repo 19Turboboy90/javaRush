@@ -18,6 +18,7 @@ public class MinesweeperGame extends Game {
     private boolean isGameStopped;
     private int countFlags;
     private int countClosedTiles = SIDE * SIDE;
+    private int score;
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
 
@@ -97,6 +98,8 @@ public class MinesweeperGame extends Game {
             }
         } else {
             setCellNumber(gameObject.x, gameObject.y, gameObject.countMineNeighbors);
+            score+=5;
+            setScore(score);
         }
     }
 
