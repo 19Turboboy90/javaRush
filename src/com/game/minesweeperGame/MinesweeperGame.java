@@ -13,10 +13,9 @@ import java.util.List;
 public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
     private static final String MINE = "\uD83D\uDCA3";
-
     private static final String FLAG = "\uD83D\uDEA9";
     private int countMinesOnField;
-
+    private boolean isGameStopped;
     private int countFlags;
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
@@ -28,6 +27,7 @@ public class MinesweeperGame extends Game {
 
 
     private void createGame() {
+        isGameStopped = false;
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length; j++) {
                 boolean isMine = getRandomNumber(10) < 1;
@@ -77,7 +77,8 @@ public class MinesweeperGame extends Game {
         setCellColor(x, y, Color.GREEN);
         if (gameObject.isMine) {
             setCellValue(gameObject.x, gameObject.y, MINE);
-            setCellColor(x, y, Color.RED);
+            setCellValueEx(gameObject.x, gameObject.y, Color.RED, MINE);
+            gameOver();
         } else if (gameObject.countMineNeighbors == 0) {
             setCellValue(gameObject.x, gameObject.y, "");
             List<GameObject> neighbors = getNeighbors(gameObject);
@@ -99,7 +100,7 @@ public class MinesweeperGame extends Game {
     private void markTile(int x, int y) {
         GameObject gameObject = gameField[y][x];
 
-        if (gameObject.isOpen || (countFlags == 0 && !gameObject.isFlag)) {
+        if (gameObject.isOpen || (countFlags == 0 && !gameObject.isFlag) && isGameStopped) {
             return;
         }
 
@@ -119,5 +120,10 @@ public class MinesweeperGame extends Game {
     @Override
     public void onMouseRightClick(int x, int y) {
         markTile(x, y);
+    }
+
+    private void gameOver() {
+        isGameStopped = true;
+        showMessageDialog(Color.RED, "GAME OVER", Color.BLACK, 100);
     }
 }
