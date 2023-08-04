@@ -17,6 +17,7 @@ public class MinesweeperGame extends Game {
     private int countMinesOnField;
     private boolean isGameStopped;
     private int countFlags;
+    private int countClosedTiles = SIDE * SIDE;
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
 
@@ -77,7 +78,11 @@ public class MinesweeperGame extends Game {
             return;
         }
         gameObject.isOpen = true;
+        countClosedTiles--;
         setCellColor(x, y, Color.GREEN);
+        if (countMinesOnField == countClosedTiles && (!gameField[y][x].isMine)){
+            win();
+        }
         if (gameObject.isMine) {
             setCellValue(gameObject.x, gameObject.y, MINE);
             setCellValueEx(gameObject.x, gameObject.y, Color.RED, MINE);
@@ -128,5 +133,10 @@ public class MinesweeperGame extends Game {
     private void gameOver() {
         isGameStopped = true;
         showMessageDialog(Color.RED, "GAME OVER", Color.BLACK, 100);
+    }
+
+    private void win() {
+        isGameStopped = true;
+        showMessageDialog(Color.BLUE, "WIN", Color.PINK, 100);
     }
 }
