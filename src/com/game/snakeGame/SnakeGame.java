@@ -6,7 +6,7 @@ public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     private Snake snake;
-    private int  turnDelay;
+    private int turnDelay;
 
     @Override
     public void initialize() {
@@ -26,7 +26,7 @@ public class SnakeGame extends Game {
     private void drawScene() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                setCellColor(x, y, Color.LIGHTBLUE);
+                setCellValueEx(x, y, Color.LIGHTBLUE, "");
             }
         }
         snake.draw(this);
