@@ -31,6 +31,10 @@ public class Snake {
         });
     }
 
+    public void move() {
+
+    }
+
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
