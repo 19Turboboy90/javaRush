@@ -31,14 +31,29 @@ public class Snake {
         });
     }
 
-    public void move() {
+//    public void move() {
+//        GameObject newHead = createNewHead();
+//        if (newHead.x < 0 || newHead.y < 0 || newHead.x >= SnakeGame.WIDTH || newHead.y >= SnakeGame.HEIGHT) {
+//            isAlive = false;
+//            return;
+//        }
+//        removeTail();
+//        snakeParts.add(0, newHead);
+//    }
+
+    public void move(Apple apple) {
         GameObject newHead = createNewHead();
         if (newHead.x < 0 || newHead.y < 0 || newHead.x >= SnakeGame.WIDTH || newHead.y >= SnakeGame.HEIGHT) {
             isAlive = false;
             return;
         }
-        removeTail();
         snakeParts.add(0, newHead);
+        if (apple.x == newHead.x && apple.y == newHead.y) {
+            apple.isAlive = false;
+        } else {
+            removeTail();
+
+        }
     }
 
     public GameObject createNewHead() {
