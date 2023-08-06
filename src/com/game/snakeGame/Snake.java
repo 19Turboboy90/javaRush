@@ -33,11 +33,9 @@ public class Snake {
 
     public void move() {
         GameObject newHead = createNewHead();
-        if (newHead != null) {
-            if (newHead.x < 0 || newHead.y < 0 || newHead.x >= SnakeGame.WIDTH || newHead.y >= SnakeGame.HEIGHT) {
-                isAlive = false;
-                return;
-            }
+        if (newHead.x < 0 || newHead.y < 0 || newHead.x >= SnakeGame.WIDTH || newHead.y >= SnakeGame.HEIGHT) {
+            isAlive = false;
+            return;
         }
         removeTail();
         snakeParts.add(0, newHead);
@@ -65,6 +63,15 @@ public class Snake {
     }
 
     public void setDirection(Direction direction) {
+        if (Direction.LEFT == direction && this.direction == Direction.RIGHT) {
+            return;
+        } else if (Direction.UP == direction && this.direction == Direction.DOWN) {
+            return;
+        } else if (Direction.RIGHT == direction && this.direction == Direction.LEFT) {
+            return;
+        } else if (Direction.DOWN == direction && this.direction == Direction.UP) {
+            return;
+        }
         this.direction = direction;
     }
 }
