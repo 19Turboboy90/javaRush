@@ -31,19 +31,14 @@ public class Snake {
         });
     }
 
-//    public void move() {
-//        GameObject newHead = createNewHead();
-//        if (newHead.x < 0 || newHead.y < 0 || newHead.x >= SnakeGame.WIDTH || newHead.y >= SnakeGame.HEIGHT) {
-//            isAlive = false;
-//            return;
-//        }
-//        removeTail();
-//        snakeParts.add(0, newHead);
-//    }
-
     public void move(Apple apple) {
         GameObject newHead = createNewHead();
         if (newHead.x < 0 || newHead.y < 0 || newHead.x >= SnakeGame.WIDTH || newHead.y >= SnakeGame.HEIGHT) {
+            isAlive = false;
+            return;
+        }
+        boolean check = checkCollision(newHead);
+        if (check) {
             isAlive = false;
             return;
         }
@@ -52,7 +47,6 @@ public class Snake {
             apple.isAlive = false;
         } else {
             removeTail();
-
         }
     }
 
@@ -88,5 +82,13 @@ public class Snake {
             return;
         }
         this.direction = direction;
+    }
+
+    public boolean checkCollision(GameObject object) {
+        for (GameObject snakePart : snakeParts) {
+            if (object.x == snakePart.x && object.y == snakePart.y)
+                return true;
+        }
+        return false;
     }
 }
