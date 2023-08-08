@@ -17,8 +17,7 @@ public class SnakeGame extends Game {
 
     private void createGame() {
         snake = new Snake(WIDTH / 2, HEIGHT / 2);
-        Apple apple = new Apple(5, 5);
-        apple.draw(this);
+        createNewApple();
         drawScene();
         turnDelay = 300;
         setTurnTimer(turnDelay);
@@ -37,6 +36,9 @@ public class SnakeGame extends Game {
     @Override
     public void onTurn(int step) {
         snake.move(apple);
+        if (!apple.isAlive) {
+            createNewApple();
+        }
         drawScene();
     }
 
@@ -56,5 +58,11 @@ public class SnakeGame extends Game {
                 snake.setDirection(Direction.DOWN);
                 break;
         }
+    }
+
+    private void createNewApple() {
+        int positionWidth = getRandomNumber(WIDTH);
+        int positionHeight = getRandomNumber(HEIGHT);
+        apple = new Apple(positionWidth, positionHeight);
     }
 }
