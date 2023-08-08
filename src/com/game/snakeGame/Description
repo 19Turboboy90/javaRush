@@ -361,3 +361,29 @@ checkCollision(GameObject).
 добавлением нового сегмента змеи в список snakeParts.
 •	Если вызов метода checkCollision(GameObject) вернул true, полю isAlive необходимо установить значение false.
 •	Если вызов метода checkCollision(GameObject) вернул true, содержимое списка snakeParts не должно изменяться.
+
+
+level-14
+
+Для хранения состояния игры нам понадобится переменная isGameStopped в классе SnakeGame. Проинициализируй её в
+методе createGame(). Когда игра проиграна, её нужно остановить и вывести сообщение об этом игроку.
+
+Для этого создай метод gameOver() и добавь в него команды, которые выполняются при остановке игры (проигрыше):
+
+- вызов метода stopTurnTimer();
+- присвоение флагу isGameStopped значения true;
+- вывод сообщения "GAME OVER".
+
+Проверку состояния флага isGameStopped нужно проводить в конце каждого хода, и если игра остановлена,
+вызывать метод gameOver().
+
+Требования:
+•	В классе SnakeGame должно существовать приватное поле boolean isGameStopped.
+•	В методе createGame() поле isGameStopped должно быть инициализировано значением false перед вызовом
+метода drawScene().
+•	В классе SnakeGame должен существовать приватный метод void gameOver().
+•	В методе gameOver() должен вызываться метод родительского класса stopTurnTimer().
+•	В методе gameOver() полю isGameStopped должно устанавливаться значение true.
+•	В методе gameOver() должен вызываться метод родительского класса showMessageDialog(Color, String, Color, int).
+•	В методе onTurn(int) должен вызываться метод gameOver() перед методом drawScene(), если змея мертвая
+(isAlive == false).
