@@ -11,6 +11,7 @@ public class SnakeGame extends Game {
     private int turnDelay;
     private Apple apple;
     private boolean isGameStopped;
+    private int score;
     private static final int GOAL = 28;
 
     @Override
@@ -20,6 +21,8 @@ public class SnakeGame extends Game {
     }
 
     private void createGame() {
+        score = 0;
+        setScore(score);
         snake = new Snake(WIDTH / 2, HEIGHT / 2);
         createNewApple();
         isGameStopped = false;
@@ -42,6 +45,10 @@ public class SnakeGame extends Game {
     public void onTurn(int step) {
         snake.move(apple);
         if (!apple.isAlive) {
+            score += 5;
+            setScore(score);
+            turnDelay -= 10;
+            setTurnTimer(turnDelay);
             createNewApple();
         }
         if (!snake.isAlive) {
@@ -81,7 +88,7 @@ public class SnakeGame extends Game {
             int positionHeight = getRandomNumber(HEIGHT);
             apple = new Apple(positionWidth, positionHeight);
             boolean b = snake.checkCollision(apple);
-            if (!b){
+            if (!b) {
                 isStop = false;
             }
         }
