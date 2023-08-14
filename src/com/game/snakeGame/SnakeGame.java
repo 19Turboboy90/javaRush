@@ -82,16 +82,13 @@ public class SnakeGame extends Game {
     }
 
     private void createNewApple() {
-        boolean isStop = true;
-        while (isStop) {
-            int positionWidth = getRandomNumber(WIDTH);
-            int positionHeight = getRandomNumber(HEIGHT);
-            apple = new Apple(positionWidth, positionHeight);
-            boolean b = snake.checkCollision(apple);
-            if (!b) {
-                isStop = false;
-            }
-        }
+        Apple newApple;
+        do {
+            int x = getRandomNumber(WIDTH);
+            int y = getRandomNumber(HEIGHT);
+            newApple = new Apple(x, y);
+        } while (snake.checkCollision(newApple));
+        apple = newApple;
     }
 
     private void gameOver() {
